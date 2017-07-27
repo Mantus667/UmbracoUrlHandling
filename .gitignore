@@ -8,11 +8,6 @@
 # Ignore Umbraco content cache file
 **/App_Data/umbraco.config
 
-# Don't ignore Umbraco packages (VisualStudio.gitignore mistakes this for a NuGet packages folder)
-# Make sure to include details from VisualStudio.gitignore BEFORE this
-!**/App_Data/[Pp]ackages/
-!**/[Uu]mbraco/[Dd]eveloper/[Pp]ackages
-
 # ImageProcessor DiskCache 
 **/App_Data/cache/
 
@@ -100,7 +95,6 @@ ipch/
 *.ncb
 *.opendb
 *.opensdf
-*.sdf
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
@@ -304,3 +298,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Don't ignore Umbraco packages (VisualStudio.gitignore mistakes this for a NuGet packages folder)
+# Make sure to include details from VisualStudio.gitignore BEFORE this
+!**/App_Data/[Pp]ackages/
+!**/[Uu]mbraco/[Dd]eveloper/[Pp]ackages
