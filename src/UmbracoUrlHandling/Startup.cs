@@ -1,6 +1,11 @@
-﻿using Umbraco.Core;
+﻿using System.Web;
+using Umbraco.Core;
+using Umbraco.Core.Services;
 using Umbraco.Core.Strings;
+using Umbraco.Web.Routing;
+using UmbracoUrlHandling.ContentFinder;
 using UmbracoUrlHandling.SegmentProvider;
+using UmbracoUrlHandling.UrlProvider;
 
 namespace UmbracoUrlHandling
 {
@@ -12,11 +17,16 @@ namespace UmbracoUrlHandling
 
         public void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            UrlSegmentProviderResolver.Current.InsertType<ImmoUrlSegmentProvider>(0);
-        }
+            UrlSegmentProviderResolver.Current.InsertTypeBefore<DefaultUrlSegmentProvider, ImmoUrlSegmentProvider>();
+
+	        UrlProviderResolver.Current.InsertTypeBefore<DefaultUrlProvider, BlogPostUrlProvider>();
+
+	        ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, BlogPostContentFinder>();
+		}
 
         public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
+	        ContentService.Published += (sender, args) => HttpContext.Current.Cache.Remove("CachedBlogPostNodes");
         }
     }
 }
