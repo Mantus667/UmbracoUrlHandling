@@ -1,0 +1,14 @@
+﻿@inherits UmbracoViewPage<UmbracoUrlHandling.Models.CategoryContentViewModel>
+@{
+	Layout = "Master.cshtml";
+}
+
+<h1>Pages related to category "@Model.Category":</h1>
+<ul>
+    @foreach (var content in Model.RelatedContentForCategory)
+    {
+        <li>
+            <a href="@content.Url">@content.Name</a>
+        </li>
+    }
+</ul>

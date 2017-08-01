@@ -294,6 +294,8 @@
     <Content Include="Views\ProductDetails.cshtml" />
     <Content Include="Views\RealEstate.cshtml" />
     <Content Include="Views\TextPage.cshtml" />
+    <Content Include="Views\TagsOverview.cshtml" />
+    <Content Include="Views\RelatedContentForCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -331,7 +333,11 @@
   <ItemGroup>
     <Compile Include="ContentFinder\BlogPostContentFinder.cs" />
     <Compile Include="ContentFinder\ContentFinderItem.cs" />
+    <Compile Include="Controller\BlogPostRepositoryController.cs" />
     <Compile Include="Controller\ProductDetailsController.cs" />
+    <Compile Include="Models\CategoryContentViewModel.cs" />
+    <Compile Include="Models\TagsOverviewViewModel.cs" />
+    <Compile Include="RouteHandler\BlogRepositoryRouteHandler.cs" />
     <Compile Include="RouteHandler\ProductRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SegmentProvider\ImmoUrlSegmentProvider.cs" />

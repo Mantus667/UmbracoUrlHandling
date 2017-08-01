@@ -8,7 +8,7 @@ using  Umbraco.Web;
 using  Umbraco.ModelsBuilder;
 using  Umbraco.ModelsBuilder.Umbraco;
 [assembly: PureLiveAssembly]
-[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "e4d2aa0bdb7a3315")]
+[assembly:ModelsBuilderAssembly(PureLive = true, SourceHash = "4ad86b1aa0722510")]
 [assembly:System.Reflection.AssemblyVersion("0.0.0.1")]
 
 
@@ -81,6 +81,15 @@ namespace Umbraco.Web.PublishedContentModels
 		public string Introduction
 		{
 			get { return this.GetPropertyValue<string>("introduction"); }
+		}
+
+		///<summary>
+		/// Tags: Tags related to this blog post
+		///</summary>
+		[ImplementPropertyType("tags")]
+		public IEnumerable<string> Tags
+		{
+			get { return this.GetPropertyValue<IEnumerable<string>>("tags"); }
 		}
 
 		///<summary>

@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Umbraco.Core;
@@ -27,6 +28,7 @@ namespace UmbracoUrlHandling
 
 	        ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, BlogPostContentFinder>();
 
+            //Make a route based on a node Id
 	        RouteTable.Routes.MapUmbracoRoute(
 		        "ProductRoute",
 		        "Products/{sku}",
@@ -43,6 +45,36 @@ namespace UmbracoUrlHandling
         public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
 	        ContentService.Published += (sender, args) => HttpContext.Current.Cache.Remove("CachedBlogPostNodes");
+
+            //Dynamic routes based on node type and node urls
+            var blogRepositoryNodes = UmbracoContext.Current.ContentCache.GetByXPath("//BlogPostRepository").ToArray();
+
+            foreach (var repository in blogRepositoryNodes)
+            {
+                var uri = repository.Url().TrimStart("/");
+                var hash = uri.GetHashCode();
+
+                RouteTable.Routes.MapUmbracoRoute(
+                    $"blog_repository_categories_{hash}",
+                    $"{uri.EnsureEndsWith('/')}categories/",
+                    new
+                    {
+                        controller = "BlogPostRepository",
+                        action = "Categories"
+                    },
+                    new BlogRepositoryRouteHandler(repository.Id));
+
+                RouteTable.Routes.MapUmbracoRoute(
+                    $"blog_repository_category_{hash}",
+                    $"{uri.EnsureEndsWith('/')}category/{{category}}",
+                    new
+                    {
+                        controller = "BlogPostRepository",
+                        action = "Category",
+                        category = UrlParameter.Optional
+                    },
+                    new BlogRepositoryRouteHandler(repository.Id));
+            }
         }
     }
 }
